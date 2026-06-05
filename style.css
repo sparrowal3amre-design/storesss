@@ -1,41 +1,98 @@
 body {
     margin: 0;
-    font-family: Arial;
-    background: linear-gradient(135deg,#0f172a,#1e293b);
+    font-family: 'Arial';
+    background: linear-gradient(135deg, #0f172a, #1e293b, #0b1220);
     color: white;
 }
 
+/* HEADER */
 header {
     display: flex;
     justify-content: space-between;
-    padding: 15px;
+    align-items: center;
+    padding: 15px 20px;
     background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
 }
 
-.glass {
+header h1 {
+    font-size: 20px;
+}
+
+/* BUTTONS */
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background: linear-gradient(45deg, #38bdf8, #6366f1);
+    color: white;
+}
+
+/* PRODUCTS GRID */
+#products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    padding: 20px;
+}
+
+/* PRODUCT CARD */
+.card {
     background: rgba(255,255,255,0.08);
     backdrop-filter: blur(15px);
     border-radius: 15px;
-    border: 1px solid rgba(255,255,255,0.1);
-}
-
-.card {
-    width: 200px;
-    margin: 10px;
     padding: 10px;
-    display: inline-block;
+    transition: 0.3s;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
 
-img {
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card img {
     width: 100%;
     border-radius: 10px;
 }
 
+.card h3 {
+    margin: 10px 0 5px;
+}
+
+/* CART SIDEBAR */
 .cart {
     position: fixed;
-    right: 10px;
-    top: 80px;
-    width: 250px;
+    right: -350px;
+    top: 0;
+    width: 320px;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(20px);
+    padding: 15px;
+    transition: 0.4s;
+    overflow-y: auto;
+}
+
+.cart.show {
+    right: 0;
+}
+
+/* CART ITEMS */
+.cart-item {
+    background: rgba(255,255,255,0.08);
+    margin: 10px 0;
     padding: 10px;
+    border-radius: 10px;
+}
+
+/* INPUTS */
+input {
+    width: 90%;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 10px;
+    border: none;
 }
