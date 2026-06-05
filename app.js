@@ -1,10 +1,11 @@
 function render() {
-    const box = document.getElementById("products");
+
+    let box = document.getElementById("products");
     box.innerHTML = "";
 
     products.forEach((p, i) => {
         box.innerHTML += `
-        <div class="card glass">
+        <div class="glass card">
             <img src="${p.image}">
             <h3>${p.name}</h3>
             <p>${p.price}$</p>
@@ -16,47 +17,46 @@ function render() {
 
 function add(i) {
     cart.push(products[i]);
-    saveCart();
+    saveAll();
     updateCart();
 }
 
 function updateCart() {
-
-    document.getElementById("count").innerText = cart.length;
 
     let box = document.getElementById("cartItems");
     box.innerHTML = "";
 
     let total = 0;
 
-    cart.forEach((p, i) => {
+    cart.forEach(p => {
         total += Number(p.price);
-
-        box.innerHTML += `
-        <div>
-            ${p.name} - ${p.price}$
-            <button onclick="remove(${i})">X</button>
-        </div>
-        `;
+        box.innerHTML += `<p>${p.name} - ${p.price}$</p>`;
     });
 
     document.getElementById("total").innerText = "Total: " + total + "$";
 }
 
-function remove(i) {
-    cart.splice(i, 1);
-    saveCart();
-    updateCart();
-}
+function checkout() {
 
-function clearCart() {
+    if (!currentUser) {
+        alert("سجل دخول أولاً");
+        return;
+    }
+
+    let order = {
+        user: currentUser.email,
+        items: cart,
+        total: cart.reduce((a,b)=>a+Number(b.price),0),
+        date: new Date().toLocaleString()
+    };
+
+    orders.push(order);
+
     cart = [];
-    saveCart();
-    updateCart();
-}
+    saveAll();
 
-function toggleCart() {
-    document.getElementById("cart").classList.toggle("show");
+    alert("تم إرسال الطلب");
+    updateCart();
 }
 
 render();
