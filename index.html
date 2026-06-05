@@ -1,26 +1,53 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STOREVIP PRO</title>
 <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <header>
-<h2>STOREVIP PRO</h2>
+<div class="logo">📱 STOREVIP</div>
+
+<nav>
+<a href="#">Home</a>
 <a href="auth.html">Login</a>
 <a href="admin.html">Admin</a>
+</nav>
 </header>
+
+<section class="hero">
+<h1>Buy Premium Smartphones</h1>
+<p>Best prices • Fast delivery • Secure system</p>
+<button onclick="scrollToProducts()">Shop Now</button>
+</section>
+
+<section class="products-section">
+
+<h2>🔥 Products</h2>
 
 <div id="products" class="grid"></div>
 
-<div>
-<h3>Cart</h3>
+</section>
+
+<!-- CART -->
+<div class="cart">
+<h3>🛒 Cart</h3>
 <div id="cartItems"></div>
-<h3 id="total"></h3>
+<h4 id="total"></h4>
 <button onclick="checkout()">Checkout</button>
 </div>
 
 <script type="module" src="app.js"></script>
+
+<script>
+function scrollToProducts(){
+document.querySelector('.products-section').scrollIntoView({behavior:'smooth'});
+}
+</script>
 
 </body>
 </html>
