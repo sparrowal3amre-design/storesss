@@ -20,17 +20,6 @@ background:rgba(255,255,255,0.05);
 backdrop-filter:blur(10px);
 }
 
-section{
-padding:15px;
-}
-
-input{
-padding:10px;
-margin:5px;
-border:none;
-border-radius:10px;
-}
-
 button{
 padding:10px;
 border:none;
@@ -40,10 +29,18 @@ color:white;
 cursor:pointer;
 }
 
-#products{
+input{
+padding:10px;
+margin:5px;
+border:none;
+border-radius:10px;
+}
+
+.grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
 gap:10px;
+padding:15px;
 }
 
 .card{
@@ -57,42 +54,79 @@ text-align:center;
 width:100%;
 border-radius:10px;
 }
+
+.cart{
+position:fixed;
+right:-350px;
+top:0;
+width:300px;
+height:100%;
+background:rgba(0,0,0,0.8);
+padding:10px;
+transition:0.3s;
+overflow:auto;
+}
+
+.cart.show{ right:0; }
 </style>
 </head>
 
 <body>
 
 <header>
-<h2>📱 StoreVIP Pro</h2>
-<button onclick="toggleAdmin()">⚙️ Admin</button>
+<h2>📱 StoreVIP PRO</h2>
+<div>
+<button onclick="toggleCart()">🛒</button>
+<button onclick="logout()">🚪</button>
+</div>
 </header>
 
-<!-- ADMIN -->
-<section id="admin" style="display:none">
-<h3>إضافة منتج</h3>
+<!-- AUTH -->
+<section id="authBox">
+<h3>تسجيل دخول</h3>
+<input id="email" placeholder="Email">
+<input id="pass" placeholder="Password">
+<br>
+<button onclick="register()">Register</button>
+<button onclick="login()">Login</button>
+</section>
 
-<input id="name" placeholder="اسم المنتج">
-<input id="price" placeholder="السعر">
-<input type="file" id="image">
+<!-- ADMIN -->
+<section id="adminBox" style="display:none">
+<h3>⚙️ Admin Panel</h3>
+
+<input id="pname" placeholder="اسم المنتج">
+<input id="pprice" placeholder="السعر">
+<input type="file" id="pimg">
 
 <br>
-<button onclick="addProduct()">إضافة</button>
+<button onclick="addProduct()">إضافة منتج</button>
 </section>
 
 <!-- PRODUCTS -->
-<section>
-<div id="products"></div>
-</section>
+<div class="grid" id="products"></div>
+
+<!-- CART -->
+<div class="cart" id="cart">
+<h3>🛒 Cart</h3>
+<div id="cartItems"></div>
+<h3 id="total"></h3>
+<button onclick="checkout()">Checkout</button>
+</div>
 
 <script>
 /* ===== DATA ===== */
+let users = JSON.parse(localStorage.getItem("users")) || [];
+let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
 let products = JSON.parse(localStorage.getItem("products")) || [];
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
 
 /* ===== CLOUDINARY ===== */
 function uploadImage(file){
-let form = new FormData();
-form.append("file", file);
-form.append("upload_preset", "storevip_upload");
+let form=new FormData();
+form.append("file",file);
+form.append("upload_preset","storevip_upload");
 
 return fetch("https://api.cloudinary.com/v1_1/YOUR_CLOUD_NAME/image/upload",{
 method:"POST",
@@ -102,50 +136,121 @@ body:form
 .then(d=>d.secure_url);
 }
 
-/* ===== ADD PRODUCT ===== */
-function addProduct(){
+/* ===== AUTH ===== */
+function register(){
+users.push({email:email.value,pass:pass.value});
+localStorage.setItem("users",JSON.stringify(users));
+alert("registered");
+}
 
-let file = document.getElementById("image").files[0];
+function login(){
+let u=users.find(x=>x.email==email.value && x.pass==pass.value);
+if(u){
+currentUser=u;
+localStorage.setItem("currentUser",JSON.stringify(u));
+checkUI();
+}
+}
+
+function logout(){
+localStorage.removeItem("currentUser");
+location.reload();
+}
+
+/* ===== ADMIN ===== */
+function addProduct(){
+let file=document.getElementById("pimg").files[0];
 
 uploadImage(file).then(url=>{
-
 products.push({
-name:name.value,
-price:price.value,
+name:pname.value,
+price:pprice.value,
 image:url
 });
 
 localStorage.setItem("products",JSON.stringify(products));
-
 render();
-
-alert("تم إضافة المنتج");
 });
 }
 
-/* ===== RENDER ===== */
+/* ===== PRODUCTS ===== */
 function render(){
 let box=document.getElementById("products");
 box.innerHTML="";
 
-products.forEach(p=>{
+products.forEach((p,i)=>{
 box.innerHTML+=`
 <div class="card">
 <img src="${p.image}">
 <h3>${p.name}</h3>
 <p>${p.price}$</p>
+<button onclick="add(${i})">Add</button>
 </div>`;
 });
 }
 
-/* ===== ADMIN TOGGLE ===== */
-function toggleAdmin(){
-let a=document.getElementById("admin");
-a.style.display = a.style.display==="none"?"block":"none";
+/* ===== CART ===== */
+function add(i){
+cart.push(products[i]);
+localStorage.setItem("cart",JSON.stringify(cart));
+updateCart();
+}
+
+function updateCart(){
+let box=document.getElementById("cartItems");
+box.innerHTML="";
+let total=0;
+
+cart.forEach((p,idx)=>{
+total+=Number(p.price);
+box.innerHTML+=`
+<p>${p.name} - ${p.price}$
+<button onclick="removeItem(${idx})">X</button></p>`;
+});
+
+document.getElementById("total").innerText="Total: "+total+"$";
+}
+
+function removeItem(i){
+cart.splice(i,1);
+localStorage.setItem("cart",JSON.stringify(cart));
+updateCart();
+}
+
+/* ===== CHECKOUT ===== */
+function checkout(){
+if(!currentUser) return alert("login first");
+
+orders.push({
+user:currentUser.email,
+items:cart,
+total:cart.reduce((a,b)=>a+Number(b.price),0)
+});
+
+cart=[];
+localStorage.setItem("orders",JSON.stringify(orders));
+localStorage.setItem("cart",JSON.stringify(cart));
+
+updateCart();
+alert("order done");
+}
+
+/* ===== UI CONTROL ===== */
+function toggleCart(){
+document.getElementById("cart").classList.toggle("show");
+}
+
+function checkUI(){
+if(currentUser){
+authBox.style.display="none";
+adminBox.style.display="block";
+}
 }
 
 /* INIT */
 render();
+updateCart();
+checkUI();
 </script>
 
 </body>
