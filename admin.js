@@ -1,57 +1,36 @@
-const PASSWORD = "1234";
+function uploadImage(file){
 
-function login() {
-    let p = document.getElementById("pass").value;
+let form = new FormData();
+form.append("file",file);
+form.append("upload_preset","storevip_upload");
 
-    if (p === PASSWORD) {
-        document.getElementById("login").style.display = "none";
-        document.getElementById("panel").style.display = "block";
-        render();
-    } else {
-        alert("خطأ");
-    }
+return fetch("https://api.cloudinary.com/v1_1/YOUR_CLOUD_NAME/image/upload",{
+method:"POST",
+body:form
+})
+.then(r=>r.json())
+.then(d=>d.secure_url);
 }
 
-function add() {
+function addProduct(){
 
-    const name = document.getElementById("name").value;
-    const price = document.getElementById("price").value;
-    const file = document.getElementById("image").files[0];
+let file = document.getElementById("img").files[0];
 
-    const reader = new FileReader();
+uploadImage(file).then(url=>{
 
-    reader.onload = function () {
+products.push({
+name: document.getElementById("name").value,
+price: document.getElementById("price").value,
+image: url
+});
 
-        products.push({
-            id: Date.now(),
-            name,
-            price,
-            image: reader.result
-        });
+localStorage.setItem("products",JSON.stringify(products));
 
-        save();
-        render();
-    };
-
-    reader.readAsDataURL(file);
+alert("تم إضافة المنتج");
+});
 }
 
-function render() {
-    let box = document.getElementById("list");
-    box.innerHTML = "";
-
-    products.forEach((p, i) => {
-        box.innerHTML += `
-        <div>
-            ${p.name} - ${p.price}$
-            <button onclick="del(${i})">حذف</button>
-        </div>
-        `;
-    });
-}
-
-function del(i) {
-    products.splice(i, 1);
-    save();
-    render();
+function deleteProduct(i){
+products.splice(i,1);
+localStorage.setItem("products",JSON.stringify(products));
 }
