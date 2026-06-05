@@ -1,53 +1,316 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STOREVIP PRO</title>
-<link rel="stylesheet" href="style.css">
-</head>
+<title>StoreVIP - متجر الهواتف الذكية</title>
 
+<link rel="stylesheet" href="style.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
 <body>
 
+<!-- TOP BAR -->
+
+<div class="top-bar">
+فون إكسبريس - متجر الهواتف الذكية
+</div>
+
+<!-- HEADER -->
+
 <header>
-<div class="logo">📱 STOREVIP</div>
+
+<div class="logo">
+<i class="fa-solid fa-mobile-screen-button"></i>
+<span>فون إكسبريس</span>
+</div>
 
 <nav>
-<a href="#">Home</a>
-<a href="auth.html">Login</a>
-<a href="admin.html">Admin</a>
+
+<a href="#">الرئيسية</a>
+<a href="#">الهواتف الذكية</a>
+<a href="#">الإكسسوارات</a>
+<a href="#">العروض</a>
+<a href="#">الدعم</a>
+
 </nav>
+
+<div class="header-tools">
+
+<div class="search-box">
+
+<input type="text" placeholder="بحث">
+
+<button>
+<i class="fa-solid fa-magnifying-glass"></i>
+</button>
+
+</div>
+
+<a href="auth.html" class="tool-btn">
+<i class="fa-regular fa-user"></i>
+الحساب
+</a>
+
+<button class="tool-btn" onclick="toggleCart()">
+<i class="fa-solid fa-cart-shopping"></i>
+السلة
+<span id="cartCount">0</span>
+</button>
+
+</div>
+
 </header>
 
+<!-- HERO -->
+
 <section class="hero">
-<h1>Buy Premium Smartphones</h1>
-<p>Best prices • Fast delivery • Secure system</p>
-<button onclick="scrollToProducts()">Shop Now</button>
+
+<div class="hero-overlay"></div>
+
+<div class="hero-content">
+
+<div class="hero-text">
+
+<h1>
+اكتشف عالم الهواتف<br>
+الذكية الأفضل!
+</h1>
+
+<p>
+أحدث الأجهزة بأسعار مذهلة
+</p>
+
+<button class="shop-btn">
+تسوق الآن
+</button>
+
+</div>
+
+<div class="hero-image">
+
+<img
+src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=700"
+alt="phone">
+
+</div>
+
+</div>
+
 </section>
+
+<!-- PRODUCTS -->
 
 <section class="products-section">
 
-<h2>🔥 Products</h2>
+<h2 class="section-title">
+المنتجات المميزة
+</h2>
 
-<div id="products" class="grid"></div>
+<div id="products" class="products-grid">
+
+<!-- PRODUCT -->
+
+<div class="product-card">
+
+<img
+src="https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=500"
+alt="">
+
+<h3>iPhone 15 Pro</h3>
+
+<div class="stars">
+★★★★★
+</div>
+
+<p class="price">
+4299 AED
+</p>
+
+<button>
+أضف للسلة
+</button>
+
+</div>
+
+<div class="product-card">
+
+<img
+src="https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=500"
+alt="">
+
+<h3>Samsung S24 Ultra</h3>
+
+<div class="stars">
+★★★★★
+</div>
+
+<p class="price">
+4499 AED
+</p>
+
+<button>
+أضف للسلة
+</button>
+
+</div>
+
+<div class="product-card">
+
+<img
+src="https://images.unsplash.com/photo-1510557880182-3f8cbf4b3b6d?w=500"
+alt="">
+
+<h3>iPhone 14 Pro</h3>
+
+<div class="stars">
+★★★★★
+</div>
+
+<p class="price">
+3699 AED
+</p>
+
+<button>
+أضف للسلة
+</button>
+
+</div>
+
+<div class="product-card">
+
+<img
+src="https://images.unsplash.com/photo-1580910051074-3eb694886505?w=500"
+alt="">
+
+<h3>Samsung S23 Ultra</h3>
+
+<div class="stars">
+★★★★★
+</div>
+
+<p class="price">
+3299 AED
+</p>
+
+<button>
+أضف للسلة
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- FEATURES -->
+
+<section class="features">
+
+<div class="feature">
+
+<i class="fa-solid fa-shield-halved"></i>
+
+<h4>ضمان رسمي</h4>
+
+<p>ضمان على جميع المنتجات</p>
+
+</div>
+
+<div class="feature">
+
+<i class="fa-solid fa-truck-fast"></i>
+
+<h4>توصيل سريع</h4>
+
+<p>خلال 24 ساعة</p>
+
+</div>
+
+<div class="feature">
+
+<i class="fa-solid fa-rotate-left"></i>
+
+<h4>استرجاع سهل</h4>
+
+<p>خلال 7 أيام</p>
+
+</div>
+
+<div class="feature">
+
+<i class="fa-solid fa-award"></i>
+
+<h4>منتجات أصلية</h4>
+
+<p>100% أصلية</p>
+
+</div>
 
 </section>
 
 <!-- CART -->
-<div class="cart">
-<h3>🛒 Cart</h3>
-<div id="cartItems"></div>
-<h4 id="total"></h4>
-<button onclick="checkout()">Checkout</button>
+
+<div id="cartSidebar" class="cart-sidebar">
+
+<div class="cart-header">
+
+<h3>سلة المشتريات</h3>
+
+<button onclick="toggleCart()">
+✕
+</button>
+
 </div>
 
-<script type="module" src="app.js"></script>
+<div id="cartItems">
+
+<p>لا توجد منتجات</p>
+
+</div>
+
+<div class="cart-footer">
+
+<h3 id="total">
+0 AED
+</h3>
+
+<button class="checkout-btn">
+إتمام الشراء
+</button>
+
+</div>
+
+</div>
+
+<!-- OVERLAY -->
+
+<div
+id="overlay"
+class="overlay"
+onclick="toggleCart()">
+</div>
 
 <script>
-function scrollToProducts(){
-document.querySelector('.products-section').scrollIntoView({behavior:'smooth'});
+
+function toggleCart(){
+
+document
+.getElementById("cartSidebar")
+.classList.toggle("show");
+
+document
+.getElementById("overlay")
+.classList.toggle("show");
+
 }
+
 </script>
+
+<script type="module" src="app.js"></script>
 
 </body>
 </html>
