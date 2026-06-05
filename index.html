@@ -11,19 +11,17 @@
 <header>
 <h1>📱 StoreVIP</h1>
 
-<button onclick="toggleCart()">🛒 السلة (<span id="count">0</span>)</button>
+<a href="auth.html">👤 حساب</a>
+<button onclick="checkout()">📦 طلب</button>
 
-<a href="admin.html">Admin</a>
 </header>
 
 <div id="products"></div>
 
-<!-- CART -->
-<div id="cart" class="cart">
-<h2>🛒 Cart</h2>
+<div id="cart" class="glass cart">
+<h2>🛒 السلة</h2>
 <div id="cartItems"></div>
 <h3 id="total"></h3>
-<button onclick="clearCart()">تفريغ</button>
 </div>
 
 <script src="db.js"></script>
