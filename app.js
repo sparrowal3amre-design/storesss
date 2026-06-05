@@ -1,15 +1,14 @@
-import { db, collection, getDocs } from "./firebase.js";
+import { db, collection, getDocs, auth } from "./firebase.js";
 
 let cart = [];
 
 async function loadProducts(){
-const querySnapshot = await getDocs(collection(db,"products"));
+const snap = await getDocs(collection(db,"products"));
 
-let box = document.getElementById("products");
+let box=document.getElementById("products");
 box.innerHTML="";
 
-querySnapshot.forEach((doc)=>{
-
+snap.forEach(doc=>{
 let p = doc.data();
 
 box.innerHTML += `
@@ -17,20 +16,17 @@ box.innerHTML += `
 <img src="${p.image}">
 <h3>${p.name}</h3>
 <p>${p.price}$</p>
-<button onclick='add("${p.name}",${p.price})'>Add</button>
+<button onclick="add('${p.name}',${p.price})">Add</button>
 </div>`;
 });
 }
 
 window.add = function(name,price){
 
-let found = cart.find(p=>p.name===name);
+let f = cart.find(i=>i.name===name);
 
-if(found){
-found.qty++;
-}else{
-cart.push({name,price,qty:1});
-}
+if(f) f.qty++;
+else cart.push({name,price,qty:1});
 
 updateCart();
 }
@@ -41,14 +37,31 @@ let total=0;
 
 box.innerHTML="";
 
-cart.forEach((p,i)=>{
-total += p.price * p.qty;
+cart.forEach(i=>{
+total += i.price*i.qty;
 
-box.innerHTML += `
-<p>${p.name} ${p.price}$ × ${p.qty}</p>`;
+box.innerHTML += `<p>${i.name} × ${i.qty}</p>`;
 });
 
-document.getElementById("total").innerText="Total: "+total+"$";
+document.getElementById("total").innerText = total+"$";
+}
+
+window.checkout = async function(){
+
+let user = auth.currentUser;
+if(!user) return alert("Login first");
+
+await addDoc(collection(db,"orders"),{
+user:user.email,
+items:cart,
+total:cart.reduce((a,b)=>a+b.price*b.qty,0),
+date:new Date().toISOString()
+});
+
+cart=[];
+updateCart();
+
+alert("Order placed");
 }
 
 loadProducts();
