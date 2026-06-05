@@ -1,3 +1,5 @@
+import { db, collection, addDoc } from "./firebase.js";
+
 function uploadImage(file){
 
 let form = new FormData();
@@ -12,25 +14,17 @@ body:form
 .then(d=>d.secure_url);
 }
 
-function addProduct(){
+window.addProduct = async function(){
 
 let file = document.getElementById("img").files[0];
 
-uploadImage(file).then(url=>{
+let url = await uploadImage(file);
 
-products.push({
-name: document.getElementById("name").value,
-price: document.getElementById("price").value,
-image: url
+await addDoc(collection(db,"products"),{
+name:name.value,
+price:price.value,
+image:url
 });
 
-localStorage.setItem("products",JSON.stringify(products));
-
-alert("تم إضافة المنتج");
-});
-}
-
-function deleteProduct(i){
-products.splice(i,1);
-localStorage.setItem("products",JSON.stringify(products));
+alert("تمت الإضافة إلى Firebase 🚀");
 }
