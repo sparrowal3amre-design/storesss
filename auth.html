@@ -1,7 +1,62 @@
-<input id="email" placeholder="email">
-<input id="pass" placeholder="password">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 
-<button onclick="register()">Register</button>
-<button onclick="login()">Login</button>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تسجيل الدخول</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+
+<body class="auth-page">
+
+<div class="auth-container">
+
+<div class="auth-card">
+
+<div class="auth-logo">
+<i class="fa-solid fa-mobile-screen-button"></i>
+<h2>STOREVIP</h2>
+</div>
+
+<h3>تسجيل الدخول</h3>
+
+<input
+type="email"
+id="email"
+placeholder="البريد الإلكتروني">
+
+<input
+type="password"
+id="pass"
+placeholder="كلمة المرور">
+
+<button onclick="login()">
+دخول
+</button>
+
+<button
+class="register-btn"
+onclick="register()">
+
+إنشاء حساب جديد
+
+</button>
+
+<a href="index.html">
+العودة للرئيسية
+</a>
+
+</div>
+
+</div>
 
 <script type="module" src="auth.js"></script>
+
+</body>
+</html>
