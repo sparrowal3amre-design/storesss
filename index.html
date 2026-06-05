@@ -2,7 +2,7 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>StoreVIP</title>
+<title>StoreVIP Full</title>
 
 <style>
 body {
@@ -14,134 +14,228 @@ body {
 
 /* HEADER */
 header {
-    display: flex;
-    justify-content: space-between;
+    display:flex;
+    justify-content:space-between;
+    padding:15px;
+    background:rgba(255,255,255,0.05);
+}
+
+/* CONTAINERS */
+section {
     padding: 15px;
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(15px);
 }
 
-/* GRID */
-#products {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 15px;
-    padding: 20px;
-}
-
-/* CARD */
-.card {
-    background: rgba(255,255,255,0.06);
-    padding: 10px;
-    border-radius: 15px;
-    text-align: center;
-}
-
-.card img {
-    width: 100%;
-    border-radius: 10px;
+/* INPUTS */
+input {
+    padding:10px;
+    margin:5px;
+    border:none;
+    border-radius:10px;
 }
 
 /* BUTTON */
 button {
-    padding: 8px;
-    border: none;
-    border-radius: 10px;
-    background: linear-gradient(45deg, #3b82f6, #6366f1);
-    color: white;
-    cursor: pointer;
+    padding:10px;
+    border:none;
+    border-radius:10px;
+    background:linear-gradient(45deg,#3b82f6,#6366f1);
+    color:white;
+    cursor:pointer;
+}
+
+/* PRODUCTS */
+#products {
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:10px;
+}
+
+.card {
+    background:rgba(255,255,255,0.06);
+    padding:10px;
+    border-radius:15px;
+    text-align:center;
+}
+
+.card img {
+    width:100%;
+    border-radius:10px;
 }
 
 /* CART */
 .cart {
-    position: fixed;
-    right: -350px;
-    top: 0;
-    width: 300px;
-    height: 100%;
-    background: rgba(0,0,0,0.7);
-    backdrop-filter: blur(20px);
-    padding: 10px;
-    transition: 0.3s;
+    position:fixed;
+    right:-350px;
+    top:0;
+    width:300px;
+    height:100%;
+    background:rgba(0,0,0,0.8);
+    padding:10px;
+    transition:0.3s;
 }
 
-.cart.show {
-    right: 0;
-}
+.cart.show { right:0; }
 </style>
 </head>
 
 <body>
 
 <header>
-    <h2>📱 StoreVIP</h2>
-    <button onclick="toggleCart()">🛒 السلة</button>
+<h2>📱 StoreVIP</h2>
+<div>
+<button onclick="toggleCart()">🛒</button>
+<button onclick="logout()">🚪</button>
+</div>
 </header>
 
-<div id="products"></div>
+<!-- LOGIN -->
+<section id="authBox">
+<h3>تسجيل / دخول</h3>
+<input id="email" placeholder="Email">
+<input id="pass" placeholder="Password">
+<br>
+<button onclick="register()">Register</button>
+<button onclick="login()">Login</button>
+</section>
 
+<!-- ADMIN -->
+<section id="adminBox" style="display:none">
+<h3>⚙️ Admin - إضافة منتج</h3>
+<input id="pname" placeholder="اسم المنتج">
+<input id="pprice" placeholder="السعر">
+<input id="pimg" placeholder="رابط الصورة">
+<br>
+<button onclick="addProduct()">إضافة</button>
+</section>
+
+<!-- PRODUCTS -->
+<section>
+<div id="products"></div>
+</section>
+
+<!-- CART -->
 <div id="cart" class="cart">
-    <h3>🛒 Cart</h3>
-    <div id="cartItems"></div>
-    <h3 id="total"></h3>
+<h3>🛒 Cart</h3>
+<div id="cartItems"></div>
+<h3 id="total"></h3>
+<button onclick="checkout()">طلب</button>
 </div>
 
 <script>
 /* ===== DATA ===== */
-let products = JSON.parse(localStorage.getItem("products")) || [
-    {name:"iPhone 15", price:999, image:"https://via.placeholder.com/200"},
-    {name:"Samsung S23", price:850, image:"https://via.placeholder.com/200"}
-];
-
+let users = JSON.parse(localStorage.getItem("users")) || [];
+let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+let products = JSON.parse(localStorage.getItem("products")) || [];
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
 
-/* ===== RENDER PRODUCTS ===== */
-function render() {
+/* ===== AUTH ===== */
+function register(){
+    let u = {
+        email:email.value,
+        pass:pass.value
+    };
+    users.push(u);
+    localStorage.setItem("users",JSON.stringify(users));
+    alert("تم التسجيل");
+}
+
+function login(){
+    let found = users.find(u => u.email==email.value && u.pass==pass.value);
+    if(found){
+        currentUser = found;
+        localStorage.setItem("currentUser",JSON.stringify(found));
+        alert("تم الدخول");
+        checkUI();
+    } else alert("خطأ");
+}
+
+function logout(){
+    localStorage.removeItem("currentUser");
+    location.reload();
+}
+
+/* ===== ADMIN ===== */
+function addProduct(){
+    products.push({
+        name:pname.value,
+        price:pprice.value,
+        image:pimg.value
+    });
+    localStorage.setItem("products",JSON.stringify(products));
+    render();
+}
+
+/* ===== PRODUCTS ===== */
+function render(){
     let box = document.getElementById("products");
-    box.innerHTML = "";
+    box.innerHTML="";
 
-    products.forEach((p, i) => {
-        box.innerHTML += `
+    products.forEach((p,i)=>{
+        box.innerHTML+=`
         <div class="card">
             <img src="${p.image}">
             <h3>${p.name}</h3>
             <p>${p.price}$</p>
-            <button onclick="add(${i})">أضف للسلة</button>
-        </div>
-        `;
+            <button onclick="add(${i})">Add</button>
+        </div>`;
     });
 }
 
-/* ===== ADD TO CART ===== */
-function add(i) {
+/* ===== CART ===== */
+function add(i){
     cart.push(products[i]);
-    localStorage.setItem("cart", JSON.stringify(cart));
+    localStorage.setItem("cart",JSON.stringify(cart));
     updateCart();
 }
 
-/* ===== UPDATE CART ===== */
-function updateCart() {
-    let box = document.getElementById("cartItems");
-    box.innerHTML = "";
+function updateCart(){
+    let box=document.getElementById("cartItems");
+    box.innerHTML="";
+    let total=0;
 
-    let total = 0;
-
-    cart.forEach(p => {
-        total += Number(p.price);
-        box.innerHTML += `<p>${p.name} - ${p.price}$</p>`;
+    cart.forEach(p=>{
+        total+=Number(p.price);
+        box.innerHTML+=`<p>${p.name} - ${p.price}$</p>`;
     });
 
-    document.getElementById("total").innerText = "Total: " + total + "$";
+    document.getElementById("total").innerText="Total: "+total+"$";
 }
 
-/* ===== TOGGLE CART ===== */
-function toggleCart() {
-    document.getElementById("cart").classList.toggle("show");
+/* ===== CHECKOUT ===== */
+function checkout(){
+    if(!currentUser){ alert("سجل دخول"); return; }
+
+    orders.push({
+        user:currentUser.email,
+        items:cart,
+        total:cart.reduce((a,b)=>a+Number(b.price),0)
+    });
+
+    cart=[];
+    localStorage.setItem("orders",JSON.stringify(orders));
+    localStorage.setItem("cart",JSON.stringify(cart));
+
+    updateCart();
+    alert("تم الطلب");
+}
+
+/* ===== UI ===== */
+function checkUI(){
+    if(currentUser){
+        authBox.style.display="none";
+        adminBox.style.display="block";
+    }
+}
+
+function toggleCart(){
+    cartBox.classList.toggle("show");
 }
 
 /* ===== INIT ===== */
 render();
 updateCart();
+checkUI();
 </script>
 
 </body>
