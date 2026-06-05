@@ -1,30 +1,37 @@
-function render(){
+import { db, collection, getDocs } from "./firebase.js";
+
+let cart = [];
+
+async function loadProducts(){
+const querySnapshot = await getDocs(collection(db,"products"));
+
 let box = document.getElementById("products");
 box.innerHTML="";
 
-products.forEach((p,i)=>{
+querySnapshot.forEach((doc)=>{
+
+let p = doc.data();
+
 box.innerHTML += `
 <div class="card">
 <img src="${p.image}">
 <h3>${p.name}</h3>
 <p>${p.price}$</p>
-<button onclick="add(${i})">Add</button>
+<button onclick='add("${p.name}",${p.price})'>Add</button>
 </div>`;
 });
 }
 
-function add(i){
-let item = products[i];
+window.add = function(name,price){
 
-let found = cart.find(p=>p.name===item.name);
+let found = cart.find(p=>p.name===name);
 
 if(found){
 found.qty++;
-} else {
-cart.push({...item, qty:1});
+}else{
+cart.push({name,price,qty:1});
 }
 
-localStorage.setItem("cart",JSON.stringify(cart));
 updateCart();
 }
 
@@ -38,40 +45,10 @@ cart.forEach((p,i)=>{
 total += p.price * p.qty;
 
 box.innerHTML += `
-<p>${p.name} ${p.price}$ × ${p.qty}
-<button onclick="removeItem(${i})">X</button>
-</p>`;
+<p>${p.name} ${p.price}$ × ${p.qty}</p>`;
 });
 
 document.getElementById("total").innerText="Total: "+total+"$";
 }
 
-function removeItem(i){
-cart.splice(i,1);
-localStorage.setItem("cart",JSON.stringify(cart));
-updateCart();
-}
-
-function checkout(){
-if(!currentUser){
-alert("سجل دخول");
-return;
-}
-
-orders.push({
-user:currentUser.email,
-items:cart,
-total:cart.reduce((a,b)=>a+b.price*b.qty,0),
-date:new Date().toLocaleString()
-});
-
-cart=[];
-localStorage.setItem("orders",JSON.stringify(orders));
-localStorage.setItem("cart",JSON.stringify(cart));
-
-updateCart();
-alert("تم الطلب");
-}
-
-render();
-updateCart();
+loadProducts();
