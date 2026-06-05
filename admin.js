@@ -1,6 +1,6 @@
 import { db, collection, addDoc } from "./firebase.js";
 
-function uploadImage(file){
+function upload(file){
 
 let form = new FormData();
 form.append("file",file);
@@ -16,15 +16,15 @@ body:form
 
 window.addProduct = async function(){
 
-let file = document.getElementById("img").files[0];
-
-let url = await uploadImage(file);
+let file = img.files[0];
+let url = await upload(file);
 
 await addDoc(collection(db,"products"),{
 name:name.value,
 price:price.value,
-image:url
+image:url,
+created:Date.now()
 });
 
-alert("تمت الإضافة إلى Firebase 🚀");
+alert("Product added");
 }
