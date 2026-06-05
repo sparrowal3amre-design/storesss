@@ -1,23 +1,16 @@
-function register(){
-users.push({
-email:email.value,
-password:pass.value
-});
+import {
+auth,
+createUserWithEmailAndPassword,
+signInWithEmailAndPassword
+} from "./firebase.js";
 
-localStorage.setItem("users",JSON.stringify(users));
+window.register = async function(){
+await createUserWithEmailAndPassword(auth,email.value,pass.value);
 alert("تم التسجيل");
 }
 
-function login(){
-
-let u = users.find(x=>x.email==email.value && x.password==pass.value);
-
-if(u){
-currentUser = u;
-localStorage.setItem("currentUser",JSON.stringify(u));
+window.login = async function(){
+await signInWithEmailAndPassword(auth,email.value,pass.value);
 alert("تم الدخول");
 location.href="index.html";
-} else {
-alert("خطأ");
-}
 }
