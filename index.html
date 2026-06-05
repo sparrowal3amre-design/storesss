@@ -2,40 +2,147 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>StoreVIP Premium</title>
-<link rel="stylesheet" href="style.css">
+<title>StoreVIP</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: radial-gradient(circle at top, #0f172a, #020617);
+    color: white;
+}
+
+/* HEADER */
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(15px);
+}
+
+/* GRID */
+#products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    padding: 20px;
+}
+
+/* CARD */
+.card {
+    background: rgba(255,255,255,0.06);
+    padding: 10px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.card img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+/* BUTTON */
+button {
+    padding: 8px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(45deg, #3b82f6, #6366f1);
+    color: white;
+    cursor: pointer;
+}
+
+/* CART */
+.cart {
+    position: fixed;
+    right: -350px;
+    top: 0;
+    width: 300px;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(20px);
+    padding: 10px;
+    transition: 0.3s;
+}
+
+.cart.show {
+    right: 0;
+}
+</style>
 </head>
 
 <body>
 
-<header class="header glass">
-    <h1>📱 StoreVIP</h1>
-
-    <div class="actions">
-        <button onclick="toggleCart()">🛒 السلة</button>
-        <a href="admin.html">⚙️ Admin</a>
-    </div>
+<header>
+    <h2>📱 StoreVIP</h2>
+    <button onclick="toggleCart()">🛒 السلة</button>
 </header>
 
-<section class="hero">
-    <h2>🔥 أحدث الهواتف الذكية</h2>
-    <p>تسوق أفضل الأجهزة بأفضل الأسعار</p>
-</section>
+<div id="products"></div>
 
-<main>
-    <div id="products" class="grid"></div>
-</main>
-
-<!-- CART -->
-<div id="cart" class="cart glass">
-    <h2>🛒 Cart</h2>
+<div id="cart" class="cart">
+    <h3>🛒 Cart</h3>
     <div id="cartItems"></div>
     <h3 id="total"></h3>
-    <button onclick="clearCart()">Clear</button>
 </div>
 
-<script src="db.js"></script>
-<script src="app.js"></script>
+<script>
+/* ===== DATA ===== */
+let products = JSON.parse(localStorage.getItem("products")) || [
+    {name:"iPhone 15", price:999, image:"https://via.placeholder.com/200"},
+    {name:"Samsung S23", price:850, image:"https://via.placeholder.com/200"}
+];
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+/* ===== RENDER PRODUCTS ===== */
+function render() {
+    let box = document.getElementById("products");
+    box.innerHTML = "";
+
+    products.forEach((p, i) => {
+        box.innerHTML += `
+        <div class="card">
+            <img src="${p.image}">
+            <h3>${p.name}</h3>
+            <p>${p.price}$</p>
+            <button onclick="add(${i})">أضف للسلة</button>
+        </div>
+        `;
+    });
+}
+
+/* ===== ADD TO CART ===== */
+function add(i) {
+    cart.push(products[i]);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCart();
+}
+
+/* ===== UPDATE CART ===== */
+function updateCart() {
+    let box = document.getElementById("cartItems");
+    box.innerHTML = "";
+
+    let total = 0;
+
+    cart.forEach(p => {
+        total += Number(p.price);
+        box.innerHTML += `<p>${p.name} - ${p.price}$</p>`;
+    });
+
+    document.getElementById("total").innerText = "Total: " + total + "$";
+}
+
+/* ===== TOGGLE CART ===== */
+function toggleCart() {
+    document.getElementById("cart").classList.toggle("show");
+}
+
+/* ===== INIT ===== */
+render();
+updateCart();
+</script>
 
 </body>
 </html>
