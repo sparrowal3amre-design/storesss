@@ -1,102 +1,43 @@
-body {
-    margin: 0;
-    font-family: Arial;
-    background: radial-gradient(circle at top, #0f172a, #020617);
-    color: white;
+body{
+margin:0;
+font-family:Arial;
+background:radial-gradient(circle at top,#0f172a,#020617);
+color:white;
 }
 
-/* GLASS EFFECT */
-.glass {
-    background: rgba(255,255,255,0.06);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 16px;
+header{
+display:flex;
+justify-content:space-between;
+padding:15px;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(10px);
 }
 
-/* HEADER */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:10px;
+padding:15px;
 }
 
-.actions button,
-.actions a {
-    margin-left: 10px;
-    padding: 8px 12px;
-    border-radius: 10px;
-    border: none;
-    text-decoration: none;
-    color: white;
-    background: linear-gradient(45deg, #3b82f6, #6366f1);
-    cursor: pointer;
+.card{
+background:rgba(255,255,255,0.06);
+padding:10px;
+border-radius:15px;
+text-align:center;
+backdrop-filter:blur(10px);
 }
 
-/* HERO */
-.hero {
-    text-align: center;
-    padding: 40px 10px;
+.card img{
+width:100%;
+border-radius:10px;
 }
 
-.hero h2 {
-    font-size: 28px;
-}
-
-/* GRID */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    padding: 20px;
-}
-
-/* PRODUCT CARD */
-.card {
-    padding: 12px;
-    transition: 0.3s;
-    text-align: center;
-}
-
-.card:hover {
-    transform: translateY(-8px);
-}
-
-.card img {
-    width: 100%;
-    border-radius: 12px;
-}
-
-.card h3 {
-    margin: 10px 0 5px;
-}
-
-.card button {
-    margin-top: 10px;
-    padding: 8px;
-    width: 100%;
-    border: none;
-    border-radius: 10px;
-    background: linear-gradient(45deg, #22c55e, #16a34a);
-    color: white;
-    cursor: pointer;
-}
-
-/* CART */
-.cart {
-    position: fixed;
-    right: -360px;
-    top: 0;
-    width: 320px;
-    height: 100%;
-    padding: 15px;
-    transition: 0.4s;
-    overflow-y: auto;
-}
-
-.cart.show {
-    right: 0;
+button{
+padding:10px;
+border:none;
+border-radius:10px;
+background:linear-gradient(45deg,#3b82f6,#6366f1);
+color:white;
+cursor:pointer;
 }
