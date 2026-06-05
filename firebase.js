@@ -12,11 +12,11 @@ signOut
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
-apiKey: "YOUR_API_KEY",
-authDomain: "YOUR_AUTH_DOMAIN",
-projectId: "YOUR_PROJECT_ID",
-storageBucket: "YOUR_BUCKET",
-appId: "YOUR_APP_ID"
+apiKey: "AIzaSyBJxjMbheO6ComvGApxte6_354ML54mDXo",
+authDomain: "store-3bd3d.firebaseapp.com",
+projectId: "store-3bd3d",
+storageBucket: "store-3bd3d.firebasestorage.app",
+appId: "1:889662991855:web:3c93c89a9b2886e9005a1a"
 };
 
 const app = initializeApp(firebaseConfig);
