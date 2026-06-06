@@ -12,7 +12,8 @@ window.addProduct = async function(){
 
 try{
 
-const file = document.getElementById("img").files[0];
+const file =
+document.getElementById("img").files[0];
 
 if(!file){
 alert("اختر صورة");
@@ -21,13 +22,21 @@ return;
 
 const storageRef = ref(
 storage,
-"products/" + Date.now() + "_" + file.name
+"products/" +
+Date.now() +
+"_" +
+file.name
 );
 
-await uploadBytes(storageRef,file);
+await uploadBytes(
+storageRef,
+file
+);
 
 const imageUrl =
-await getDownloadURL(storageRef);
+await getDownloadURL(
+storageRef
+);
 
 await addDoc(
 collection(db,"products"),
@@ -41,9 +50,9 @@ created:Date.now()
 
 alert("تمت إضافة المنتج");
 
-}catch(err){
+}catch(e){
 
-alert(err.message);
+alert(e.message);
 
 }
 
