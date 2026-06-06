@@ -10,7 +10,9 @@ getDocs
 import {
 getAuth,
 createUserWithEmailAndPassword,
-signInWithEmailAndPassword
+signInWithEmailAndPassword,
+onAuthStateChanged,
+signOut
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 import {
@@ -21,7 +23,11 @@ getDownloadURL
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
 const firebaseConfig = {
-  /* بياناتك الحالية */
+apiKey: "AIzaSyBJxjMbheO6ComvGApxte6_354ML54mDXo",
+authDomain: "store-3bd3d.firebaseapp.com",
+projectId: "store-3bd3d",
+storageBucket: "store-3bd3d.firebasestorage.app",
+appId: "1:889662991855:web:3c93c89a9b2886e9005a1a"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -36,6 +42,8 @@ addDoc,
 getDocs,
 createUserWithEmailAndPassword,
 signInWithEmailAndPassword,
+onAuthStateChanged,
+signOut,
 ref,
 uploadBytes,
 getDownloadURL
