@@ -1,9 +1,59 @@
-<h2>Admin Panel</h2>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 
-<input id="name" placeholder="name">
-<input id="price" placeholder="price">
-<input type="file" id="img">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<button onclick="addProduct()">Add</button>
+<title>لوحة الإدارة</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+
+<body class="auth-page">
+
+<div class="auth-container">
+
+<div class="auth-card">
+
+<div class="auth-logo">
+<i class="fa-solid fa-user-shield"></i>
+<h2>ADMIN PANEL</h2>
+</div>
+
+<h3>إضافة منتج جديد</h3>
+
+<input
+type="text"
+id="name"
+placeholder="اسم المنتج">
+
+<input
+type="number"
+id="price"
+placeholder="سعر المنتج">
+
+<input
+type="file"
+id="img">
+
+<button onclick="addProduct()">
+إضافة المنتج
+</button>
+
+<a href="index.html">
+العودة للمتجر
+</a>
+
+</div>
+
+</div>
 
 <script type="module" src="admin.js"></script>
+
+</body>
+</html>
