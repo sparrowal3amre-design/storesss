@@ -1,67 +1,154 @@
-import { db, collection, getDocs, auth } from "./firebase.js";
+import {
+db,
+collection,
+getDocs,
+addDoc,
+auth
+} from "./firebase.js";
 
-let cart = [];
+let cart=[];
 
 async function loadProducts(){
-const snap = await getDocs(collection(db,"products"));
 
-let box=document.getElementById("products");
+const snap=
+await getDocs(
+collection(db,"products")
+);
+
+const box=
+document.getElementById("products");
+
+if(!box) return;
+
 box.innerHTML="";
 
 snap.forEach(doc=>{
-let p = doc.data();
+
+const p=doc.data();
 
 box.innerHTML += `
-<div class="card">
+<div class="product-card">
+
 <img src="${p.image}">
+
 <h3>${p.name}</h3>
-<p>${p.price}$</p>
-<button onclick="add('${p.name}',${p.price})">Add</button>
-</div>`;
+
+<p class="price">
+${p.price} AED
+</p>
+
+<button
+onclick="addToCart('${p.name}',${p.price})">
+
+أضف للسلة
+
+</button>
+
+</div>
+`;
+
 });
+
 }
 
-window.add = function(name,price){
+window.addToCart =
+function(name,price){
 
-let f = cart.find(i=>i.name===name);
+const item=
+cart.find(
+i=>i.name===name
+);
 
-if(f) f.qty++;
-else cart.push({name,price,qty:1});
+if(item){
+
+item.qty++;
+
+}else{
+
+cart.push({
+name,
+price,
+qty:1
+});
+
+}
 
 updateCart();
+
 }
 
 function updateCart(){
-let box=document.getElementById("cartItems");
-let total=0;
+
+const box=
+document.getElementById("cartItems");
+
+if(!box) return;
 
 box.innerHTML="";
 
-cart.forEach(i=>{
-total += i.price*i.qty;
+let total=0;
 
-box.innerHTML += `<p>${i.name} × ${i.qty}</p>`;
+cart.forEach(item=>{
+
+total +=
+item.price *
+item.qty;
+
+box.innerHTML += `
+<p>
+${item.name}
+×
+${item.qty}
+</p>
+`;
+
 });
 
-document.getElementById("total").innerText = total+"$";
+const t=
+document.getElementById("total");
+
+if(t){
+t.innerText=
+total + " AED";
 }
 
-window.checkout = async function(){
+}
 
-let user = auth.currentUser;
-if(!user) return alert("Login first");
+window.checkout =
+async function(){
 
-await addDoc(collection(db,"orders"),{
+const user=
+auth.currentUser;
+
+if(!user){
+
+alert("سجل الدخول أولاً");
+
+return;
+
+}
+
+await addDoc(
+collection(db,"orders"),
+{
 user:user.email,
 items:cart,
-total:cart.reduce((a,b)=>a+b.price*b.qty,0),
-date:new Date().toISOString()
-});
+total:cart.reduce(
+(a,b)=>
+a+b.price*b.qty,
+0
+),
+date:new Date()
+.toISOString()
+}
+);
+
+alert("تم إرسال الطلب");
 
 cart=[];
+
 updateCart();
 
-alert("Order placed");
 }
 
 loadProducts();
