@@ -1,30 +1,50 @@
-import { db, collection, addDoc } from "./firebase.js";
-
-function upload(file){
-
-let form = new FormData();
-form.append("file",file);
-form.append("upload_preset","storevip_upload");
-
-return fetch("https://api.cloudinary.com/v1_1/YOUR_CLOUD_NAME/image/upload",{
-method:"POST",
-body:form
-})
-.then(r=>r.json())
-.then(d=>d.secure_url);
-}
+import {
+db,
+storage,
+collection,
+addDoc,
+ref,
+uploadBytes,
+getDownloadURL
+} from "./firebase.js";
 
 window.addProduct = async function(){
 
-let file = img.files[0];
-let url = await upload(file);
+try{
 
-await addDoc(collection(db,"products"),{
+const file = document.getElementById("img").files[0];
+
+if(!file){
+alert("اختر صورة");
+return;
+}
+
+const storageRef = ref(
+storage,
+"products/" + Date.now() + "_" + file.name
+);
+
+await uploadBytes(storageRef,file);
+
+const imageUrl =
+await getDownloadURL(storageRef);
+
+await addDoc(
+collection(db,"products"),
+{
 name:name.value,
-price:price.value,
-image:url,
+price:Number(price.value),
+image:imageUrl,
 created:Date.now()
-});
+}
+);
 
-alert("Product added");
+alert("تمت إضافة المنتج");
+
+}catch(err){
+
+alert(err.message);
+
+}
+
 }
