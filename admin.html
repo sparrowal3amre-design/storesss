@@ -1,59 +1,183 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>لوحة الإدارة</title>
-
-<link rel="stylesheet" href="style.css">
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة التحكم - فون إكسبريس</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
+<body>
 
-<body class="auth-page">
+  <!-- HEADER -->
+  <header>
+    <div class="logo" onclick="navigateTo('index.html')">
+      <i class="fa-solid fa-mobile-screen-button"></i>
+      <span>فون إكسبريس - لوحة التحكم</span>
+    </div>
 
-<div class="auth-container">
+    <div class="header-tools">
+      <span style="color: var(--text-secondary);">مرحباً <span id="adminName">المسؤول</span></span>
+      <button class="tool-btn" id="logoutBtn" onclick="logout()">
+        <i class="fa-solid fa-sign-out-alt"></i>
+        خروج
+      </button>
+    </div>
+  </header>
 
-<div class="auth-card">
+  <!-- ADMIN PAGE -->
+  <div class="admin-page">
+    <!-- Admin Header -->
+    <div class="admin-header">
+      <h1>لوحة التحكم</h1>
+      <div class="admin-nav">
+        <button class="active" data-section="products-section" onclick="switchTab(this)">
+          <i class="fa-solid fa-box"></i> إدارة المنتجات
+        </button>
+        <button data-section="orders-section" onclick="switchTab(this)">
+          <i class="fa-solid fa-receipt"></i> إدارة الطلبات
+        </button>
+      </div>
+    </div>
 
-<div class="auth-logo">
-<i class="fa-solid fa-user-shield"></i>
-<h2>ADMIN PANEL</h2>
-</div>
+    <!-- Products Section -->
+    <div id="products-section" class="admin-section active">
+      <h2>إدارة المنتجات</h2>
 
-<h3>إضافة منتج جديد</h3>
+      <!-- Add/Edit Product Form -->
+      <div class="form-card">
+        <h3>إضافة منتج جديد</h3>
+        <form id="productForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="productName">اسم المنتج *</label>
+              <input type="text" id="productName" placeholder="مثال: iPhone 15 Pro" required>
+            </div>
+            <div class="form-group">
+              <label for="productPrice">السعر (AED) *</label>
+              <input type="number" id="productPrice" placeholder="مثال: 4299" step="0.01" required>
+            </div>
+          </div>
 
-<input
-type="text"
-id="name"
-placeholder="اسم المنتج">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="productStock">الكمية المتوفرة</label>
+              <input type="number" id="productStock" placeholder="0" min="0">
+            </div>
+            <div class="form-group">
+              <label for="productCategory">الفئة *</label>
+              <input type="text" id="productCategory" placeholder="مثال: Smartphones" required>
+            </div>
+          </div>
 
-<input
-type="number"
-id="price"
-placeholder="سعر المنتج">
+          <div class="form-row full">
+            <div class="form-group">
+              <label for="productDescription">الوصف</label>
+              <textarea id="productDescription" placeholder="أدخل وصف تفصيلي للمنتج..."></textarea>
+            </div>
+          </div>
 
-<input
-type="file"
-id="img">
+          <div class="form-row full">
+            <div class="form-group">
+              <label for="productImage">صورة المنتج</label>
+              <input type="file" id="productImage" accept="image/*">
+            </div>
+          </div>
 
-<button onclick="addProduct()">
-إضافة المنتج
-</button>
+          <button type="submit" class="auth-btn" id="submitBtn">
+            <i class="fa-solid fa-plus"></i> إضافة منتج
+          </button>
+        </form>
+      </div>
 
-<a href="index.html">
-العودة للمتجر
-</a>
+      <!-- Products Table -->
+      <div class="form-card">
+        <h3>قائمة المنتجات</h3>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>اسم المنتج</th>
+                <th>السعر</th>
+                <th>الكمية</th>
+                <th>الفئة</th>
+                <th>الإجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="productsTable">
+              <tr>
+                <td colspan="5" style="text-align: center; padding: 2rem;">جاري تحميل المنتجات...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
 
-</div>
+    <!-- Orders Section -->
+    <div id="orders-section" class="admin-section">
+      <h2>إدارة الطلبات</h2>
 
-</div>
+      <!-- Orders Table -->
+      <div class="form-card">
+        <h3>قائمة الطلبات</h3>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>رقم الطلب</th>
+                <th>معرف المستخدم</th>
+                <th>عدد المنتجات</th>
+                <th>الإجمالي</th>
+                <th>الحالة</th>
+                <th>التاريخ</th>
+              </tr>
+            </thead>
+            <tbody id="ordersTable">
+              <tr>
+                <td colspan="6" style="text-align: center; padding: 2rem;">جاري تحميل الطلبات...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<script type="module" src="admin.js"></script>
+  <!-- Helper function for tab switching -->
+  <script>
+    function switchTab(button) {
+      // Remove active class from all buttons
+      document.querySelectorAll(".admin-nav button").forEach(btn => btn.classList.remove("active"));
+      // Add active class to clicked button
+      button.classList.add("active");
+      
+      // Hide all sections
+      document.querySelectorAll(".admin-section").forEach(section => section.classList.remove("active"));
+      
+      // Show selected section
+      const sectionId = button.dataset.section;
+      document.getElementById(sectionId).classList.add("active");
+    }
+
+    function navigateTo(page) {
+      window.location.href = page;
+    }
+
+    async function logout() {
+      const { signOut, auth } = await import("./firebase.js");
+      try {
+        await signOut(auth);
+        alert("تم تسجيل الخروج بنجاح");
+        window.location.href = "index.html";
+      } catch (error) {
+        console.error("Logout error:", error);
+        alert("حدث خطأ في تسجيل الخروج");
+      }
+    }
+  </script>
+
+  <script type="module" src="admin.js"></script>
 
 </body>
 </html>
