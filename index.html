@@ -1,316 +1,134 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>StoreVIP - متجر الهواتف الذكية</title>
-
-<link rel="stylesheet" href="style.css">
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>فون إكسبريس - متجر الهواتف الذكية</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 
-<!-- TOP BAR -->
-
-<div class="top-bar">
-فون إكسبريس - متجر الهواتف الذكية
-</div>
-
-<!-- HEADER -->
-
-<header>
-
-<div class="logo">
-<i class="fa-solid fa-mobile-screen-button"></i>
-<span>فون إكسبريس</span>
-</div>
-
-<nav>
-
-<a href="#">الرئيسية</a>
-<a href="#">الهواتف الذكية</a>
-<a href="#">الإكسسوارات</a>
-<a href="#">العروض</a>
-<a href="#">الدعم</a>
-
-</nav>
-
-<div class="header-tools">
-
-<div class="search-box">
-
-<input type="text" placeholder="بحث">
-
-<button>
-<i class="fa-solid fa-magnifying-glass"></i>
-</button>
-
-</div>
-
-<a href="auth.html" class="tool-btn">
-<i class="fa-regular fa-user"></i>
-الحساب
-</a>
-
-<button class="tool-btn" onclick="toggleCart()">
-<i class="fa-solid fa-cart-shopping"></i>
-السلة
-<span id="cartCount">0</span>
-</button>
-
-</div>
-
-</header>
-
-<!-- HERO -->
-
-<section class="hero">
-
-<div class="hero-overlay"></div>
-
-<div class="hero-content">
-
-<div class="hero-text">
-
-<h1>
-اكتشف عالم الهواتف<br>
-الذكية الأفضل!
-</h1>
-
-<p>
-أحدث الأجهزة بأسعار مذهلة
-</p>
-
-<button class="shop-btn">
-تسوق الآن
-</button>
-
-</div>
-
-<div class="hero-image">
-
-<img
-src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=700"
-alt="phone">
-
-</div>
-
-</div>
-
-</section>
-
-<!-- PRODUCTS -->
-
-<section class="products-section">
-
-<h2 class="section-title">
-المنتجات المميزة
-</h2>
-
-<div id="products" class="products-grid">
-
-<!-- PRODUCT -->
-
-<div class="product-card">
-
-<img
-src="https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=500"
-alt="">
-
-<h3>iPhone 15 Pro</h3>
-
-<div class="stars">
-★★★★★
-</div>
-
-<p class="price">
-4299 AED
-</p>
-
-<button>
-أضف للسلة
-</button>
-
-</div>
-
-<div class="product-card">
-
-<img
-src="https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=500"
-alt="">
-
-<h3>Samsung S24 Ultra</h3>
-
-<div class="stars">
-★★★★★
-</div>
-
-<p class="price">
-4499 AED
-</p>
-
-<button>
-أضف للسلة
-</button>
-
-</div>
-
-<div class="product-card">
-
-<img
-src="https://images.unsplash.com/photo-1510557880182-3f8cbf4b3b6d?w=500"
-alt="">
-
-<h3>iPhone 14 Pro</h3>
-
-<div class="stars">
-★★★★★
-</div>
-
-<p class="price">
-3699 AED
-</p>
-
-<button>
-أضف للسلة
-</button>
-
-</div>
-
-<div class="product-card">
-
-<img
-src="https://images.unsplash.com/photo-1580910051074-3eb694886505?w=500"
-alt="">
-
-<h3>Samsung S23 Ultra</h3>
-
-<div class="stars">
-★★★★★
-</div>
-
-<p class="price">
-3299 AED
-</p>
-
-<button>
-أضف للسلة
-</button>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- FEATURES -->
-
-<section class="features">
-
-<div class="feature">
-
-<i class="fa-solid fa-shield-halved"></i>
-
-<h4>ضمان رسمي</h4>
-
-<p>ضمان على جميع المنتجات</p>
-
-</div>
-
-<div class="feature">
-
-<i class="fa-solid fa-truck-fast"></i>
-
-<h4>توصيل سريع</h4>
-
-<p>خلال 24 ساعة</p>
-
-</div>
-
-<div class="feature">
-
-<i class="fa-solid fa-rotate-left"></i>
-
-<h4>استرجاع سهل</h4>
-
-<p>خلال 7 أيام</p>
-
-</div>
-
-<div class="feature">
-
-<i class="fa-solid fa-award"></i>
-
-<h4>منتجات أصلية</h4>
-
-<p>100% أصلية</p>
-
-</div>
-
-</section>
-
-<!-- CART -->
-
-<div id="cartSidebar" class="cart-sidebar">
-
-<div class="cart-header">
-
-<h3>سلة المشتريات</h3>
-
-<button onclick="toggleCart()">
-✕
-</button>
-
-</div>
-
-<div id="cartItems">
-
-<p>لا توجد منتجات</p>
-
-</div>
-
-<div class="cart-footer">
-
-<h3 id="total">
-0 AED
-</h3>
-
-<button class="checkout-btn">
-إتمام الشراء
-</button>
-
-</div>
-
-</div>
-
-<!-- OVERLAY -->
-
-<div
-id="overlay"
-class="overlay"
-onclick="toggleCart()">
-</div>
-
-<script>
-
-function toggleCart(){
-
-document
-.getElementById("cartSidebar")
-.classList.toggle("show");
-
-document
-.getElementById("overlay")
-.classList.toggle("show");
-
-}
-
-</script>
-
-<script type="module" src="app.js"></script>
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    🎉 عروض حصرية على جميع الهواتف الذكية - اشتر الآن واحصل على خصم 20%
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo" onclick="navigateTo('index.html')">
+      <i class="fa-solid fa-mobile-screen-button"></i>
+      <span>فون إكسبريس</span>
+    </div>
+
+    <nav>
+      <a href="index.html">الرئيسية</a>
+      <a href="#products">المنتجات</a>
+      <a href="#features">المميزات</a>
+      <a href="#contact">التواصل</a>
+    </nav>
+
+    <div class="header-tools">
+      <div class="search-box">
+        <input type="text" placeholder="ابحث عن منتج...">
+        <button>
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </div>
+
+      <a href="auth.html" class="tool-btn">
+        <i class="fa-regular fa-user"></i>
+        الحساب
+      </a>
+
+      <button class="tool-btn" onclick="toggleCart()">
+        <i class="fa-solid fa-cart-shopping"></i>
+        السلة
+        <span id="cartCount">0</span>
+      </button>
+
+      <button class="tool-btn" id="logoutBtn" style="display: none;" onclick="logout()">
+        <i class="fa-solid fa-sign-out-alt"></i>
+        خروج
+      </button>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1>اكتشف عالم الهواتف<br>الذكية الأفضل!</h1>
+        <p>أحدث الأجهزة بأسعار مذهلة مع ضمان رسمي وتوصيل سريع</p>
+        <button class="shop-btn" onclick="document.getElementById('products').scrollIntoView({behavior: 'smooth'})">
+          تسوق الآن
+        </button>
+      </div>
+      <div class="hero-image">
+        <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=700" alt="أحدث الهواتف الذكية">
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS SECTION -->
+  <section class="products-section" id="products">
+    <h2 class="section-title">المنتجات المميزة</h2>
+    <div id="products" class="products-grid">
+      <!-- Products will be loaded here by JavaScript -->
+      <p style="text-align: center; grid-column: 1/-1;">جاري تحميل المنتجات...</p>
+    </div>
+  </section>
+
+  <!-- FEATURES SECTION -->
+  <section class="features" id="features">
+    <div class="feature">
+      <i class="fa-solid fa-shield-halved"></i>
+      <h4>ضمان رسمي</h4>
+      <p>ضمان شامل على جميع المنتجات</p>
+    </div>
+
+    <div class="feature">
+      <i class="fa-solid fa-truck-fast"></i>
+      <h4>توصيل سريع</h4>
+      <p>خلال 24 ساعة إلى جميع الإمارات</p>
+    </div>
+
+    <div class="feature">
+      <i class="fa-solid fa-rotate-left"></i>
+      <h4>استرجاع سهل</h4>
+      <p>استرجاع مجاني خلال 7 أيام</p>
+    </div>
+
+    <div class="feature">
+      <i class="fa-solid fa-award"></i>
+      <h4>منتجات أصلية</h4>
+      <p>100% أصلية وموثوقة</p>
+    </div>
+  </section>
+
+  <!-- CART SIDEBAR -->
+  <div id="cartSidebar" class="cart-sidebar">
+    <div class="cart-header">
+      <h3>سلة المشتريات</h3>
+      <button onclick="toggleCart()">✕</button>
+    </div>
+
+    <div id="cartItems">
+      <p>لا توجد منتجات</p>
+    </div>
+
+    <div class="cart-footer">
+      <h3 id="total">0 AED</h3>
+      <button class="checkout-btn" onclick="checkout()">إتمام الشراء</button>
+    </div>
+  </div>
+
+  <!-- OVERLAY -->
+  <div id="overlay" class="overlay" onclick="toggleCart()"></div>
+
+  <!-- SCRIPTS -->
+  <script type="module" src="app.js"></script>
 
 </body>
 </html>
